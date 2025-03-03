@@ -1,0 +1,14 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/hvyweapon/hvyweapon_red.vmt"
+	
+	insert
+	{
+		"$sheenPassEnabled"		"1"	
+		"$sheenmap"				"cubemaps/cubemap_sheen001"
+		"$sheenmapmask" 		"effects/AnimatedSheen/animatedsheen0"
+		"$sheenmaptint" 		"[ 1 1 1 ]"
+		"$sheenmapmaskframe" 	"0"
+		"$sheenindex"			"0"
+	}
+}

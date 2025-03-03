@@ -1,0 +1,9 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/hvyweapon/heavy_bullets_red.vmt"
+	
+	insert
+	{
+		"$baseTexture"	"vgui/replay/thumbnails/models/player/hvyweapon/heavy_bullets_blue"
+	}
+}

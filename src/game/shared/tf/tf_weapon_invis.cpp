@@ -208,7 +208,7 @@ bool CTFWeaponInvis::ActivateInvisibilityWatch( void )
 				SetFeignDeathState( true );
 			}
 		}
-		else if ( pOwner->CanGoInvisible() && ( pOwner->m_Shared.GetSpyCloakMeter() > 8.0f ) )	// must have over 10% cloak to start
+		else if ( pOwner->CanGoInvisible() && ( pOwner->m_Shared.GetSpyCloakMeter() > 8.0f ))	// must have over 10% cloak to start
 		{
 			// Do standard cloak.
 			pOwner->m_Shared.AddCond( TF_COND_STEALTHED, -1.f, pOwner );

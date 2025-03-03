@@ -1661,6 +1661,31 @@ void CPlayerInventory::SODestroyed( const CSteamID & steamIDOwner, const GCSDK::
 	SendInventoryUpdateEvent();
 }
 
+/**
+ * Cosmetics only show up on client-side, so if someone connects to your game - they won't see them.
+ * Weapons show up for both server and client.
+ * You might get console-spam complaining about non-existing items when in-game...
+ */
+void CreateAndAddEconItem(CPlayerInventory* inventory, GameItemDefinition_t* itemDef) {
+	CEconItem* econItem = new CEconItem();
+	econItem->SetAccountID(inventory->GetOwner().GetAccountID());
+	econItem->SetDefinitionIndex(itemDef->GetDefinitionIndex());
+
+	int32 a = itemDef->GetQuality();
+	econItem->SetQuality(a == AE_NORMAL ? AE_UNIQUE : a);
+
+	econItem->SetOrigin(eEconItemOrigin::kEconItemOrigin_Drop);
+	econItem->SetItemLevel(itemDef->RollItemLevel());
+
+	// if item id is needed somewhere then just use the same id as the index to not cause discrepancy between client-server ids /shrug/
+	econItem->SetItemID(itemDef->GetDefinitionIndex());
+	econItem->SetQuantity(1);
+
+	// the main thing that makes the item exist
+	inventory->GetSOC()->FindTypeCache(CEconItem::k_nTypeID)->AddObject(econItem);
+
+	Msg("Adding economy item %s through SOCache for %s.\n", itemDef->GetItemDefinitionName(), SteamFriends()->GetFriendPersonaName(inventory->GetOwner()));
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: This is our initial notification that this cache has been received
@@ -1689,6 +1714,11 @@ void CPlayerInventory::SOCacheSubscribed( const CSteamID & steamIDOwner, GCSDK::
 		Assert( m_pSOCache != NULL );
 		return;
 	}
+	
+	// Manually spawned items go in here
+	{
+		CreateAndAddEconItem(this, dynamic_cast<GameItemDefinition_t*>(GetItemSchema()->GetItemDefinition(1203)));
+	}
 
 	// add all the items already in the inventory
 	CSharedObjectTypeCache *pTypeCache = m_pSOCache->FindTypeCache( CEconItem::k_nTypeID );
@@ -1697,7 +1727,7 @@ void CPlayerInventory::SOCacheSubscribed( const CSteamID & steamIDOwner, GCSDK::
 		for( uint32 unItem = 0; unItem < pTypeCache->GetCount(); unItem++ )
 		{
 			CEconItem *pItem = (CEconItem *)pTypeCache->GetObject( unItem );
-			AddEconItem(pItem, true, false, true );
+			AddEconItem(pItem, true, false, true);
 		}
 	}
 
@@ -1722,6 +1752,16 @@ void CPlayerInventory::SOCacheSubscribed( const CSteamID & steamIDOwner, GCSDK::
 	{
 		InventoryManager()->CleanAckFile();
 		InventoryManager()->SaveAckFile();
+	}
+
+	for (int i = 0; i < GetItemCount(); i++) {
+		auto* iView = GetItem(i);
+
+		// todo: check, might not be needed
+		InventoryManager()->AcknowledgeItem(iView, true);
+
+		// inventory starts from 1 not 0
+		iView->SetInventoryPosition(i+1);
 	}
 #endif
 }
@@ -2198,7 +2238,7 @@ void CEconItemHandle::SetItem( CEconItem* pItem )
 
 	if ( pItem )
 	{
-		auto* pInv = InventoryManager()->GetInventoryForAccount( pItem->GetAccountID() );
+		auto* pInv = InventoryManager()->GetInventoryForAccount(pItem->GetAccountID());
 		if ( pInv )
 		{
 			m_OwnerSteamID.SetFromUint64( pInv->GetOwner().ConvertToUint64() );

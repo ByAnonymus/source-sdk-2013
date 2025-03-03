@@ -1,0 +1,9 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/engineer/engineer_red.vmt"
+	
+	insert
+	{
+		"$baseTexture"	"vgui/replay/thumbnails/models/player/engineer/engineer_blue"
+	}
+}

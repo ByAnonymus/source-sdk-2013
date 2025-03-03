@@ -12521,6 +12521,11 @@ bool CTFPlayer::CanGoInvisible( bool bAllowWhileCarryingFlag )
 	{
 		return false;
 	}
+	if (GetActiveTFWeapon() && GetActiveTFWeapon()->GetWeaponID() == TF_WEAPON_MIMICGUN)
+	{
+		return false;
+	}
+
 
 	return true;
 }

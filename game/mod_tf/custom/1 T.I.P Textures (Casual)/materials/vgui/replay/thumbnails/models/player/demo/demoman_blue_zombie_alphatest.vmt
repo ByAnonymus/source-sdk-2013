@@ -1,0 +1,11 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/demo/demoman_red.vmt"
+	
+	insert
+	{
+		"$baseTexture"	"vgui/replay/thumbnails/models/player/demo/demoman_blue_zombie"
+		"$alphatest"	"1"
+		"$nodecal"		"1"
+	}
+}

@@ -1,0 +1,9 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/soldier/soldier_red.vmt"
+	
+	insert
+	{
+		"$baseTexture"	"vgui/replay/thumbnails/models/player/soldier/soldier_red_zombie"
+	}
+}

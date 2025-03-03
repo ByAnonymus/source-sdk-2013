@@ -1,0 +1,5 @@
+"Eyes"
+{
+	"$basetexture"	"vgui\replay\thumbnails\models/player/demo/NEWBROWNSCLERA"
+	"$iris"         "vgui\replay\thumbnails\models/player/demo/NEWBROWN"
+}

@@ -1,0 +1,10 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/sniper/sniper_red.vmt"
+	
+	insert
+	{
+		"$baseTexture"	"vgui/replay/thumbnails/models/player/sniper/sniper_blue_zombie"
+		"$alphatest"	"1"
+	}
+}

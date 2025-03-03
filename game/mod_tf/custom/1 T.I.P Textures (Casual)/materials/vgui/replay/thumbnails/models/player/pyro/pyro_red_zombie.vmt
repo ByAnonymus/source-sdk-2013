@@ -1,0 +1,9 @@
+"Patch"
+{
+	include "materials/vgui/replay/thumbnails/models/player/pyro/pyro_red.vmt"
+	
+	insert
+	{
+		"$baseTexture"	"vgui/replay/thumbnails/models/player/pyro/pyro_red_zombie"
+	}
+}

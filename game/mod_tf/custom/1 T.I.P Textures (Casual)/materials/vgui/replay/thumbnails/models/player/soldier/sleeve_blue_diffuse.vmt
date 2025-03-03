@@ -1,0 +1,9 @@
+"Patch"
+{
+	include "materials\vgui\replay\thumbnails\models\player\soldier\sleeve_red_diffuse.vmt"
+	
+	insert
+	{
+	"$baseTexture" "vgui\replay\thumbnails\models\player\soldier\sleeve_blue_diffuse"
+	}
+}

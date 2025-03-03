@@ -1,0 +1,5 @@
+"Eyes"
+{
+	"$basetexture" "patterns/blank_white"
+	"$iris"        "vgui\replay\thumbnails\models/player/shared/NEWBLUE"
+}

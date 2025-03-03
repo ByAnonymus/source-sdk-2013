@@ -1,0 +1,28 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "vgui/replay/thumbnails/models\player\sniper\sniper_handR"
+	"$bumpmap" "vgui/replay/thumbnails/models\player\sniper\sniper_handR_normal"
+
+	"$phong" "1"
+	"$phongexponent" "5"
+	"$phongboost" ".1"	
+	"$lightwarptexture" "vgui/replay/thumbnails/models/player/pyro/Lambert_lightwarp"
+	"$phongfresnelranges"	"[.3 1 8]"
+
+	// Rim lighting parameters
+	"$rimlight" "1"												// To enable rim lighting (requires phong)
+	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
+	"$rimlightboost" ".3"										// Boost for ambient cube component of rim lighting
+	
+	"$cloakPassEnabled" "1"
+	"Proxies"
+	{
+		"spy_invis" //wmodel and team color cloak support
+		{
+		}
+		"invis" //vmodel cloak support
+		{
+		}
+	}
+	
+}
