@@ -37,21 +37,20 @@ public:
 
 	virtual int		GetWeaponID(void) const { return TF_WEAPON_MIMICGUN; }
 
-	//virtual void	ItemPostFrame(void);
+	virtual void	ItemPostFrame(void);
 	virtual void	PrimaryAttack(void);
 	virtual void	SecondaryAttack(void);
 
-	virtual bool	DefaultReload(int iClipSize1, int iClipSize2, int iActivity);
+	virtual void	FakeReload(void);
 
 	virtual bool		Holster(CBaseCombatWeapon* pSwitchingTo = NULL);
 	virtual bool		Deploy(void);
 
 	float				GetProgress(void) { return 0.f; }
 	bool				m_bAttack2;
+	bool				m_bReloadDown;
+	bool				m_bReloading;
 
-#ifndef CLIENT_DLL
-	virtual void	Detach();
-#endif
 
 private:
 

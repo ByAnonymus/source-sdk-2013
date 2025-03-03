@@ -22,8 +22,8 @@ WeaponData
 	// Ammo & Clip.
 	"primary_ammo"		"TF_AMMO_SECONDARY"
 	"secondary_ammo"	"None"
-	clip_size		"10"
-	default_clip		"36"
+	clip_size		"-1"
+	default_clip		"-1"
 
 	// Buckets.
 	"bucket"		"0"

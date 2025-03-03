@@ -1,9 +1,0 @@
-"Patch"
-{
-	include "materials/vgui/replay/thumbnails/models/player/spy/mask_spy.vmt"
-	
-	insert
-	{
-		"$baseTexture"	"vgui/replay/thumbnails/models/player/spy/mask_pyro"
-	}
-}

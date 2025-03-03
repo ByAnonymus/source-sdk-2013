@@ -44,33 +44,12 @@ END_DATADESC()
 
 CTFMimicgun::CTFMimicgun()
 {
+	WeaponReset();
 	m_flLastAccuracyCheck = 0.f;
 	m_flAccuracyCheckTime = 0.f;
 	m_bAttack2 = false;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-bool CTFMimicgun::DefaultReload(int iClipSize1, int iClipSize2, int iActivity)
-{
-	// The the owning local player.
-	CTFPlayer* pPlayer = GetTFPlayerOwner();
-	if (!pPlayer)
-		return false;
-
-	if (pPlayer->IsPlayerClass(TF_CLASS_SPY))
-	{
-		if (pPlayer->m_Shared.InCond(TF_COND_STEALTHED))
-		{
-			return false;
-		}
-	}
-
-	if (pPlayer->m_Shared.IsFeignDeathReady())
-		return false; // Can't reload if our feign death arm is up.
-
-	return BaseClass::DefaultReload(iClipSize1, iClipSize2, iActivity);
+	m_bReloadDown = false;
+	m_bReloading = false;
 
 }
 
@@ -79,17 +58,13 @@ bool CTFMimicgun::DefaultReload(int iClipSize1, int iClipSize2, int iActivity)
 //-----------------------------------------------------------------------------
 void CTFMimicgun::PrimaryAttack(void)
 {
-	// Check for ammunition.
-	if (m_iClip1 <= 0 && m_iClip1 != -1)
+	// Get the player owning the weapon.
+	CTFPlayer* pPlayer = ToTFPlayer(GetPlayerOwner());
+	if (!pPlayer)
 		return;
 
 	// Are we capable of firing again?
 	if (m_flNextPrimaryAttack > gpGlobals->curtime)
-		return;
-
-	// Get the player owning the weapon.
-	CTFPlayer* pPlayer = ToTFPlayer(GetPlayerOwner());
-	if (!pPlayer)
 		return;
 
 	if (!CanAttack())
@@ -99,7 +74,8 @@ void CTFMimicgun::PrimaryAttack(void)
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Secondary fire. (Mimic deployed animations if the class we're disguised as has them)
+// Purpose: Secondary fire. 
+// (Mimic deployed animations if the class we're disguised as has them)
 //-----------------------------------------------------------------------------
 void CTFMimicgun::SecondaryAttack(void)
 {
@@ -136,39 +112,47 @@ bool CTFMimicgun::Deploy(void)
 {
 	return BaseClass::Deploy();
 }
-#ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose: Reset revenge crits when the revolver is changed
-//-----------------------------------------------------------------------------
-void CTFMimicgun::Detach(void)
+
+void CTFMimicgun::FakeReload(void)
 {
-	BaseClass::Detach();
+    // Play first-person reload animation
+    SendWeaponAnim(ACT_VM_RELOAD);
+
+    // Get the player who owns this weapon
+    CBasePlayer* pOwner = ToBasePlayer(GetOwner());
+    CTFPlayer* pPlayer = ToTFPlayer(GetOwner());
+    if (pOwner && pOwner->IsPlayer())
+    {
+        // Force third-person reload animation for other players
+        pOwner->SetAnimation(PLAYER_RELOAD);
+        pPlayer->DoAnimationEvent(PLAYERANIMEVENT_RELOAD);
+		//float flReloadTime = SequenceDuration();
+		//m_flNextSecondaryAttack = gpGlobals->curtime + flReloadTime;
+		//if (m_flNextSecondaryAttack == gpGlobals->curtime) pPlayer->DoAnimationEvent(PLAYERANIMEVENT_RELOAD_END);
+    }
+
+    // Set reloading state
+    m_bReloading = true;
 }
-#endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
-/*void CTFMimicgun::ItemPostFrame(void)
+void CTFMimicgun::ItemPostFrame(void)
 {
-	CTFPlayer* pPlayer = ToTFPlayer(GetOwner());
-	// Fire.
-	if (pPlayer->m_nButtons & IN_ATTACK)
-	{
-		Fire();
-	}
+    CBasePlayer* pOwner = ToBasePlayer(GetOwner());
 
-	// Idle.
-	//if (!((pPlayer->m_nButtons & IN_ATTACK) || (pPlayer->m_nButtons & IN_ATTACK2)))
-	//{
-	//	// No fire buttons down or reloading
-	//	if (!ReloadOrSwitchWeapons() && (m_bInReload == false))
-	//	{
-	//		WeaponIdle();
-	//	}
-	//}
-	if (pPlayer->m_nButtons & IN_ATTACK2)
-	{
-		Fire2();
-	}
-}*/
+    if (!pOwner)
+        return;
+
+    // Detect fresh RELOAD button press (mimicking Medigun)
+    if (pOwner->m_nButtons & IN_RELOAD && !m_bReloadDown)
+    {
+        FakeReload();
+        m_bReloadDown = true;
+    }
+    else if (!(pOwner->m_nButtons & IN_RELOAD) && m_bReloadDown)
+    {
+        m_bReloadDown = false;
+    }
+
+
+    BaseClass::ItemPostFrame();
+}

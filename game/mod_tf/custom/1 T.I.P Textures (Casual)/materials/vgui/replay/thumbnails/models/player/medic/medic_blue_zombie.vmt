@@ -1,9 +1,0 @@
-"Patch"
-{
-	include "materials/vgui/replay/thumbnails/models/player/medic/medic_red.vmt"
-	
-	insert
-	{
-		"$baseTexture"	"vgui/replay/thumbnails/models/player/medic/medic_blue_zombie"
-	}
-}

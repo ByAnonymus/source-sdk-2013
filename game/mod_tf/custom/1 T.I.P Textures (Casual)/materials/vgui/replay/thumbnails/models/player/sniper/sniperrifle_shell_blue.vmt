@@ -1,9 +1,0 @@
-"Patch"
-{
-	include "materials/vgui/replay/thumbnails/models/player/sniper/sniperrifle_shell_red.vmt"
-	
-	insert
-	{
-		"$baseTexture"	"vgui/replay/thumbnails/models/player/sniper/sniperrifle_shell_blue"
-	}
-}
