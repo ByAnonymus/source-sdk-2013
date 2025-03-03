@@ -107,14 +107,14 @@ void CTFMimicgun::SecondaryAttack(void)
 	m_bAttack2 = !m_bAttack2;
 	if (m_flNextSecondaryAttack > gpGlobals->curtime)
 		return;
-	if ((pPlayer->m_Shared.InCond(TF_COND_DISGUISED)) && ((pPlayer->m_Shared.GetDisguiseClass() == TF_CLASS_HEAVYWEAPONS) || (pPlayer->m_Shared.GetDisguiseClass() == TF_CLASS_SNIPER)) && (pPlayer->m_Shared.GetDisguiseWeapon()->GetSlot() == 0)) {
+	if ((pPlayer->m_Shared.InCond( TF_COND_DISGUISED )) && ((pPlayer->m_Shared.GetDisguiseClass() == TF_CLASS_HEAVYWEAPONS) || (pPlayer->m_Shared.GetDisguiseClass() == TF_CLASS_SNIPER)) && (pPlayer->m_Shared.GetDisguiseWeapon()->GetSlot() == 0)) {
 		if (m_bAttack2) {
-			pPlayer->m_Shared.AddCond(TF_COND_AIMING);
+			pPlayer->m_Shared.AddCond( TF_COND_AIMING );
 			pPlayer->TeamFortress_SetSpeed();
 		}
 
 		else {
-			pPlayer->m_Shared.RemoveCond(TF_COND_AIMING);
+			pPlayer->m_Shared.RemoveCond( TF_COND_AIMING );
 			pPlayer->TeamFortress_SetSpeed();
 		}
 		BaseClass::SecondaryAttack();

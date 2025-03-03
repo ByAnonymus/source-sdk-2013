@@ -8580,7 +8580,10 @@ void CTFPlayerShared::ProcessDisguiseImpulse( CTFPlayer *pPlayer )
 			// intercepting the team value and reassigning what gets passed into Disguise()
 			// because the team numbers in the client menu don't match the #define values for the teams
 			pPlayer->m_Shared.Disguise( Q_atoi( szTeam ), Q_atoi( szClass ) );
-
+			if (pPlayer->m_Shared.InCond(TF_COND_AIMING)) {
+				pPlayer->m_Shared.RemoveCond(TF_COND_AIMING);
+				pPlayer->TeamFortress_SetSpeed();
+			}
 			// Switch from the PDA to our previous weapon
 			if ( GetActiveTFWeapon() && GetActiveTFWeapon()->GetWeaponID() == TF_WEAPON_PDA_SPY )
 			{
