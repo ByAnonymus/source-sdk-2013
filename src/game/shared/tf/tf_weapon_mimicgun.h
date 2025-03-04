@@ -39,6 +39,11 @@ public:
 
 	virtual void	ItemPostFrame(void);
 	virtual void	PrimaryAttack(void);
+	virtual void	FireBullet(CTFPlayer* pPlayer);
+
+	virtual CBaseEntity*	FireDisguisedProjectile(CTFPlayer* pLocalPlayer, int iProjectile);
+
+
 	virtual void	SecondaryAttack(void);
 
 	virtual void	FakeReload(void);

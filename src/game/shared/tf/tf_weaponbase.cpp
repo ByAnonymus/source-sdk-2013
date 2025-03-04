@@ -541,7 +541,57 @@ bool CTFWeaponBase::IsWeapon( int iWeapon ) const
 { 
 	return GetWeaponID() == iWeapon; 
 }
+// -----------------------------------------------------------------------------
+// Purpose:
+// -----------------------------------------------------------------------------
+/*float CTFWeaponBase::GetWeaponSpread(CBaseCombatWeapon* pWeapon)
+{
+	CTFWeaponBase* pTFWeapon = dynamic_cast<CTFWeaponBase*>(pWeapon);
+	const CTFWeaponInfo& weaponInfo = pTFWeapon->GetTFWpnData();
+	int iWeaponMode = pTFWeapon->GetWeaponMode();
 
+	float fSpread = weaponInfo.GetWeaponData(iWeaponMode).m_flSpread;
+	CALL_ATTRIB_HOOK_FLOAT(fSpread, mult_spread_scale);
+
+	CTFPlayer* pPlayer = ToTFPlayer(GetPlayerOwner());
+
+	if (pPlayer)
+	{
+		if (pPlayer->m_Shared.GetCarryingRuneType() == RUNE_PRECISION)
+		{
+			if (GetWeaponID() == TF_WEAPON_MINIGUN)
+			{
+				fSpread *= 0.4f;
+			}
+			else
+			{
+				fSpread *= 0.1f;
+			}
+		}
+
+		// Some weapons change fire delay based on player's health
+		float flReducedHealthBonus = 1.0f;
+		CALL_ATTRIB_HOOK_FLOAT(flReducedHealthBonus, panic_attack_negative);
+		if (flReducedHealthBonus != 1.0f)
+		{
+			flReducedHealthBonus = RemapValClamped(pPlayer->HealthFraction(), 0.2f, 0.9f, flReducedHealthBonus, 1.0f);
+			fSpread *= flReducedHealthBonus;
+		}
+
+		float flScaler = 0.f;
+		CALL_ATTRIB_HOOK_FLOAT(flScaler, mult_spread_scales_consecutive);
+		if (flScaler != 0.f && m_iConsecutiveShots)
+		{
+			// We enter this on what is going to be the second shot, due to how/when m_iConsecutiveShots increments
+			flScaler = RemapValClamped((float)m_iConsecutiveShots, 1.f, 5.f, 1.125f, 1.5f);
+			fSpread *= flScaler;
+			//DevMsg( "Shot: %i  Scalar: %3.2f  Spread: %3.2f\n", m_iConsecutiveShots.Get(), flScaler, fSpread );
+		}
+	}
+
+	return fSpread;
+}
+*/
 // -----------------------------------------------------------------------------
 // Purpose:
 // -----------------------------------------------------------------------------

@@ -11,7 +11,7 @@ WeaponData
 	"Damage"			"0"
 	"Range"				"4096"
 	"BulletsPerShot"	"1"
-	"Spread"			"0.025"
+	"Spread"			"0"
 	"TimeFireDelay"		"0.25"
 	"ProjectileType"	"projectile_bullet"
 	"DoInstantEjectBrass"	"0"
@@ -20,10 +20,8 @@ WeaponData
 
 
 	// Ammo & Clip.
-	"primary_ammo"		"TF_AMMO_SECONDARY"
+	"primary_ammo"		"None"
 	"secondary_ammo"	"None"
-	clip_size		"-1"
-	default_clip		"-1"
 
 	// Buckets.
 	"bucket"		"0"
