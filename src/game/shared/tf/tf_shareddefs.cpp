@@ -64,6 +64,7 @@ const char *g_aPlayerClassNames_NonLocalized[TF_CLASS_MENU_BUTTONS] =
 	"Pyro",
 	"Spy",
 	"Engineer",
+	"Vergil",
 	"Civilian",
 	"",
 	"Random"
@@ -81,6 +82,7 @@ const char *g_aRawPlayerClassNamesShort[TF_CLASS_MENU_BUTTONS] =
 	"pyro",
 	"spy",
 	"engineer",
+	"vergil",
 	"civilian",
 	"",
 	"random"
@@ -98,6 +100,7 @@ const char *g_aRawPlayerClassNames[TF_CLASS_MENU_BUTTONS] =
 	"pyro",
 	"spy",
 	"engineer",
+	"vergil",
 	"civilian",
 	"",
 	"random"
@@ -225,6 +228,7 @@ int iRemapIndexToClass[TF_CLASS_MENU_BUTTONS] =
 		TF_CLASS_MEDIC,
 		TF_CLASS_SNIPER,
 		TF_CLASS_SPY,
+		TF_CLASS_VERGIL,
 		0,
 		0,
 		TF_CLASS_RANDOM
