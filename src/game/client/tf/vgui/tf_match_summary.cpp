@@ -1435,7 +1435,7 @@ void CTFMatchSummary::OnTick()
 					{
 						if ( pLocalPlayer )
 						{
-							int iClass = RandomInt( TF_CLASS_SCOUT, TF_CLASS_ENGINEER );
+							int iClass = RandomInt( TF_CLASS_SCOUT, TF_CLASS_CIVILIAN-1 );
 							if ( pLocalPlayer->GetPlayerClass() && ( pLocalPlayer->GetPlayerClass()->GetClassIndex() > TF_CLASS_UNDEFINED ) )
 							{
 								iClass = pLocalPlayer->GetPlayerClass()->GetClassIndex();

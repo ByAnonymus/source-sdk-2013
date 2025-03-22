@@ -864,6 +864,15 @@ void CBackpackPanel::FireGameEvent( IGameEvent *event )
 					CEconItemView *pItem = pInventory->GetItem(i);
 					m_mapSeenItems.Insert( pItem->GetItemID() );
 				}
+				const CEconItemDefinition* pItemDef = NULL;
+				const CEconItemSchema::AvailableToAllItemDefinitionMap_t& mapItems = GetItemSchema()->GetAvailableToAllItemDefinitionMap();
+				static int iLastMapItem = -1;
+				for (int it = 0; it != mapItems.InvalidIndex(); it = mapItems.NextInorder(it))
+				{
+					pItemDef = mapItems[it];
+					m_mapSeenItems.Insert(it);
+
+				}
 			}
 
 			m_bInitializedSeenItems = true;
@@ -2056,7 +2065,7 @@ void CBackpackPanel::OpenContextMenu()
 					case TF_CLASS_PYRO: 			pszClassName = "#TF_Class_Name_Pyro"; break;
 					case TF_CLASS_SPY: 				pszClassName = "#TF_Class_Name_Spy"; break;
 					case TF_CLASS_ENGINEER: 		pszClassName = "#TF_Class_Name_Engineer"; break;
-					case TF_CLASS_VERGIL: 			pszClassName = "Vergil"; break;
+					case TF_CLASS_VERGIL: 			pszClassName = "#TF_Class_Name_Vergil"; break;
 
 				}
 			

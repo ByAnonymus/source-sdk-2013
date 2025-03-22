@@ -314,7 +314,7 @@ CCharInfoLoadoutSubPanel::CCharInfoLoadoutSubPanel(Panel *parent) : vgui::Proper
 	m_pClassButtons[ TF_CLASS_MEDIC ] = new CImageButton( this, "medic" );
 	m_pClassButtons[ TF_CLASS_SNIPER ] = new CImageButton( this, "sniper" );
 	m_pClassButtons[ TF_CLASS_SPY ] = new CImageButton( this, "spy" );
-	m_pClassButtons[TF_CLASS_VERGIL] = new CImageButton(this, "scout");
+	m_pClassButtons[TF_CLASS_VERGIL] = new CImageButton(this, "vergil");
 
 
 	for( int i = 0; i < Q_ARRAYSIZE( m_pClassButtons ); i++ )

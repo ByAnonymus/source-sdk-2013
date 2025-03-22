@@ -194,7 +194,7 @@ int	CHudMenuSpyDisguise::HudElementKeyInput( int down, ButtonCode_t keynum, cons
 	}
 
 	// menu classes are not in the same order as the defines
-	static int iRemapKeyToClass[9] = 
+	static int iRemapKeyToClass[10] = 
 	{
 		TF_CLASS_SCOUT,
 		TF_CLASS_SOLDIER,
@@ -204,7 +204,8 @@ int	CHudMenuSpyDisguise::HudElementKeyInput( int down, ButtonCode_t keynum, cons
 		TF_CLASS_ENGINEER,
 		TF_CLASS_MEDIC,
 		TF_CLASS_SNIPER,
-		TF_CLASS_SPY
+		TF_CLASS_SPY,
+		TF_CLASS_VERGIL
 	};
 
 	bool bController = ( IsConsole() || ( keynum >= JOYSTICK_FIRST ) );

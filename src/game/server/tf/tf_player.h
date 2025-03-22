@@ -121,6 +121,10 @@ public:
 	void				CheckInstantLoadoutRespawn( void );
 
 	virtual void		ResetPerRoundStats( void );
+	void ApplyRapidSlashVelocity(); // New function
+
+	float m_flNextRapidSlashTime;   // Time when the dash should stop
+	Vector m_vecRapidSlashDir;      // The direction of the dash
 
 	void				HandleCommand_JoinTeam( const char *pTeamName );
 	void				HandleCommand_JoinClass( const char *pClassName, bool bAllowSpawn = true );

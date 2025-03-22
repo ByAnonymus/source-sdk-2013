@@ -2,6 +2,6 @@
 {
 	"itemtest"
 	{
-		"viewed"		"19"
+		"viewed"		"82"
 	}
 }

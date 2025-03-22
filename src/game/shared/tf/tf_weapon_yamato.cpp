@@ -6,15 +6,19 @@
 
 #include "cbase.h"
 #include "tf_weapon_yamato.h"
+#include "in_buttons.h"
 
 // Client specific.
 #ifdef CLIENT_DLL
+#include "cam_thirdperson.h"
 #include "c_tf_player.h"
 #include "econ_entity.h"
 // Server specific.
 #else
 #include "tf_player.h"
 #endif
+extern ConVar cam_idealpitch;
+
 
 //=============================================================================
 //
@@ -34,20 +38,25 @@ LINK_ENTITY_TO_CLASS( tf_weapon_yamato, CTFYamato );
 PRECACHE_WEAPON_REGISTER( tf_weapon_yamato );
 //=============================================================================
 //
-// Weapon Sword functions.
+// Weapon Yamato functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFYamato::WeaponReset( void )
+CTFYamato::CTFYamato()
 {
-	BaseClass::WeaponReset();
 
-#ifdef CLIENT_DLL
-	m_flNextIdleWavRoll = 0;
-	m_iPrevWavDecap = 0;
-#endif
+}
+
+void CTFYamato::PrimaryAttack(void) 
+{
+	CTFPlayer* pOwner = ToTFPlayer(GetOwner());
+
+	if (pOwner->m_nButtons & IN_FORWARD)
+	{
+		DoRapidSlash();
+	}
+	//m_flNextPrimaryAttack = gpGlobals->curtime;
+	BaseClass::PrimaryAttack();
+	//pOwner->m_Shared.RemoveCond(TF_COND_SPEED_BOOST);
 }
 
 //-----------------------------------------------------------------------------
@@ -56,95 +65,57 @@ void CTFYamato::WeaponReset( void )
 int	CTFYamato::GetSwingRange( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetOwner() );
-	if ( pOwner && pOwner->m_Shared.InCond( TF_COND_SHIELD_CHARGE ) )
-	{
-		return 128;
-	}
-	else
-	{
 		//int iRange = 0;
 		//CALL_ATTRIB_HOOK_INT( iRange, is_a_sword )
 		//return 72;
 		return 72;
-	}
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CTFYamato::DoRapidSlash(void)
+{
+	CTFPlayer* pOwner = ToTFPlayer(GetOwner());
+	// Store dash direction
+	Vector vecForward;
+	AngleVectors(pOwner->EyeAngles(), &vecForward);
+
+#ifndef CLIENT_DLL
+	// Set dash speed and duration
+	pOwner->m_flNextRapidSlashTime = gpGlobals->curtime + m_flRapidSlashDuration; // 0.3 seconds of movement
+	pOwner->ApplyAbsVelocityImpulse(Vector(0, 0, 250)); // Upward impulse
+	pOwner->m_vecRapidSlashDir = vecForward * 2400.0f; // Dash speed
+
+	//pOwner->m_Shared.AddCond(TF_COND_SWIMMING_NO_EFFECTS, m_flRapidSlashDuration);
+
+	pOwner->m_Shared.AddCond(TF_COND_CRITBOOSTED_USER_BUFF, m_flRapidSlashDuration);
+
+	pOwner->ApplyAbsVelocityImpulse(pOwner->m_vecRapidSlashDir);
+
+
+#endif // !CLIENT_DLL
+}
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
 bool CTFYamato::Deploy( void )
 {
 	bool res = BaseClass::Deploy();
-
-#ifdef GAME_DLL
-	if ( res )
-#else
-	// When we go active, there's a chance we immediately thirst for heads.
-	if ( RandomInt( 1,4 ) == 1 )
-	{
-		m_flNextIdleWavRoll = gpGlobals->curtime + 3.0;
-	}
-	else
-	{
-		m_flNextIdleWavRoll = gpGlobals->curtime + RandomFloat( 5.0, 30.0 );
-	}
-#endif
-
 	return res;
 }
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-int CTFYamato::GetCount( void )
+void CTFYamato::WeaponReset(void)
 {
-	CTFPlayer *pOwner = ToTFPlayer( GetOwner() );
-	if ( !pOwner )
-		return 0;
-
-	return pOwner->m_Shared.GetDecapitations();
-}
-
+	BaseClass::WeaponReset();
 #ifdef CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFYamato::WeaponIdle( void )
-{
-	BaseClass::WeaponIdle();
+	CTFPlayer* pPlayer = GetTFPlayerOwner();
+	g_ThirdPersonManager.SetForcedThirdPerson(true);
+	Vector offset(150.0f, 25.0f, -10.0f);
+	g_ThirdPersonManager.SetDesiredCameraOffset(offset);
+	cam_idealpitch.SetValue(0.0f);
 
-	CTFPlayer *pOwner = ToTFPlayer( GetOwner() );
-	if ( !pOwner )
-		return;
+	::input->CAM_ToThirdPerson();
 
-	// If we've decapped someone recently, we roll shortly afterwards
-	int iDecaps = pOwner->m_Shared.GetDecapitations();
-	if ( m_iPrevWavDecap < iDecaps )
-	{
-		 m_flNextIdleWavRoll = MIN( m_flNextIdleWavRoll, gpGlobals->curtime + RandomFloat(3,5) );
-	}
-	m_iPrevWavDecap = iDecaps;
-
-	// Randomly play sounds to the local player. The more decaps we have, the more chance it's a good wav.
-	if ( m_flNextIdleWavRoll < gpGlobals->curtime )
-	{
-		float flChance = RemapValClamped( iDecaps, 0, 10, 0.25, 0.9 );
-		if ( RandomFloat() <= flChance )
-		{
-			// Chance to get the more powerful wav: 
-			float flChanceForGoodWav = RemapValClamped( iDecaps, 0, 10, 0.1, 0.75 );
-			if ( RandomFloat() <= flChanceForGoodWav )
-			{
-				WeaponSound( SPECIAL2 );
-			}
-			else
-			{
-				WeaponSound( SPECIAL1 );
-			}
-		}
-
-		m_flNextIdleWavRoll = gpGlobals->curtime + RandomFloat( 30.0, 60.0 );
-	}
+	pPlayer->ThirdPersonSwitch(true);
+#endif // CLIENT_DLL
 }
-
-#endif

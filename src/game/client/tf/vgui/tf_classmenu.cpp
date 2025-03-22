@@ -490,6 +490,8 @@ CTFClassMenu::CTFClassMenu( IViewPort *pViewPort )
 	m_pClassButtons[TF_CLASS_SNIPER] = new CExImageButton( this, "sniper", "", this );
 	m_pClassButtons[TF_CLASS_ENGINEER] = new CExImageButton( this, "engineer", "", this );
 	m_pClassButtons[TF_CLASS_SPY] = new CExImageButton( this, "spy", "", this );
+	m_pClassButtons[TF_CLASS_VERGIL] = new CExImageButton(this, "vergil", "", this);
+
 	m_pClassButtons[TF_CLASS_RANDOM] = new CExImageButton( this, "random", "", this );
 #endif
 
@@ -693,6 +695,7 @@ const char *g_pszLegacyClassSelectVCDWeapons[TF_LAST_NORMAL_CLASS] =
 	"tf_weapon_flamethrower",				// TF_CLASS_PYRO,
 	"",										// TF_CLASS_SPY,				// weapons handled individually
 	"tf_weapon_wrench",						// TF_CLASS_ENGINEER,		
+	"tf_weapon_yamato",						// TF_CLASS_VERGIL
 };
 
 int g_iLegacyClassSelectWeaponSlots[TF_LAST_NORMAL_CLASS] =
@@ -707,7 +710,7 @@ int g_iLegacyClassSelectWeaponSlots[TF_LAST_NORMAL_CLASS] =
 	LOADOUT_POSITION_PRIMARY,		// TF_CLASS_PYRO,
 	LOADOUT_POSITION_MELEE,			// TF_CLASS_SPY,
 	LOADOUT_POSITION_MELEE,			// TF_CLASS_ENGINEER,	
-	LOADOUT_POSITION_PRIMARY,		// TF_CLASS_VERGIL
+	LOADOUT_POSITION_MELEE,		// TF_CLASS_VERGIL
 };
 
 //-----------------------------------------------------------------------------

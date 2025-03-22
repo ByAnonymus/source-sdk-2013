@@ -1642,6 +1642,7 @@ wpntranslation_class_weapons_t pszWpnEntTranslationList[] =
 			"tf_weapon_shotgun_pyro",	// TF_CLASS_PYRO,
 			"",							// TF_CLASS_SPY,
 			"tf_weapon_shotgun_primary",// TF_CLASS_ENGINEER,		
+			""
 		}
 	},
 
@@ -1658,6 +1659,7 @@ wpntranslation_class_weapons_t pszWpnEntTranslationList[] =
 			"",							// TF_CLASS_PYRO,
 			"",							// TF_CLASS_SPY,
 			"tf_weapon_pistol",			// TF_CLASS_ENGINEER,		
+			"tf_weapon_pistol_scout"
 		}
 	},
 

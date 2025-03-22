@@ -36,29 +36,22 @@ public:
 	DECLARE_NETWORKCLASS(); 
 	DECLARE_PREDICTABLE();
 
-	CTFYamato() {}
+	CTFYamato();
 	virtual ~CTFYamato() {}
 
-	virtual void		WeaponReset( void );
+	virtual void		PrimaryAttack(void);
 	virtual int			GetSwingRange( void );
+	virtual void		DoRapidSlash( void );
+	void				WeaponReset(void);
 	
 	virtual bool		Deploy( void );
 
 	float				GetProgress( void ) { return 0.f; }
-	int					GetCount( void );
 	const char*			GetEffectLabelText( void ) { return "#TF_BERZERK"; }
-
-#ifdef CLIENT_DLL
-	virtual void		WeaponIdle( void );
-#endif
+	float		m_flRapidSlashDuration = 0.5f;
 
 private:
 
 	CTFYamato( const CTFYamato& ) {}
-
-#ifdef CLIENT_DLL
-	float				m_flNextIdleWavRoll;
-	int					m_iPrevWavDecap;
-#endif
 };
 #endif // TF_WEAPON_YAMATO_H

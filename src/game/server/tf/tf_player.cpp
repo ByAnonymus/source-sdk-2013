@@ -20455,7 +20455,22 @@ void CTFPlayer::ResetPerRoundStats( void )
 	m_Shared.ResetArenaNumChanges();
 	BaseClass::ResetPerRoundStats();
 }
+void CTFPlayer::ApplyRapidSlashVelocity()
+{
+	if (gpGlobals->curtime >= m_flNextRapidSlashTime)
+	{
+		// Stop movement and reset friction
+		SetAbsVelocity(Vector(0, 0, 0));
+		SetFriction(1.0f);
+		return;
+	}
 
+	// Maintain velocity
+	SetAbsVelocity(m_vecRapidSlashDir);
+
+	// Continue applying velocity next tick
+	SetContextThink(&CTFPlayer::ApplyRapidSlashVelocity, gpGlobals->curtime + 0.01f, "RapidSlashThink");
+}
 //-----------------------------------------------------------------------------
 // Purpose: Steam has just notified us that the player changed his inventory
 //-----------------------------------------------------------------------------

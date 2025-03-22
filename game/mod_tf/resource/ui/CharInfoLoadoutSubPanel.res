@@ -276,7 +276,7 @@
 		"visible"			"1"
 		"enabled"			"1"
 		"tabPosition"		"0"
-		"labelText"			""
+		"labelText"			"vergil"
 		"textAlignment"		"south-west"
 		"Command"			"loadout vergil"
 		"Default"			"0"
